@@ -1,0 +1,11 @@
+type Customer {
+  id: Int!
+  name: String!
+  image: String
+  age: Int
+  gender: String
+}
+
+type Query {
+  customers: [Customer]!
+}

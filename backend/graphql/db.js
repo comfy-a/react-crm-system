@@ -1,4 +1,8 @@
-export const Customers = [
+export const getCustomers = () => {
+    return Customers;
+};
+
+const Customers = [
     {
         'id': 1,
         'image': "/images/react1.jpg",
