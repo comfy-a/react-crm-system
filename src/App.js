@@ -1,48 +1,31 @@
 import React, { Component } from 'react';
 import Customer from './components/Customer';
-
-const customers = [
-  {
-    'id': 1,
-    'image': "/images/react1.jpg",
-    'name': 'test1',
-    'age': 31,
-    'gender': '남자'
-  },
-  {
-    'id': 2,
-    'image': "/images/react2.jpg",
-    'name': 'test2',
-    'age': 32,
-    'gender': '남자'
-  },
-  {
-    'id': 3,
-    'image': "/images/react3.jpg",
-    'name': 'test3',
-    'age': 33,
-    'gender': '여자'
-  },
-  {
-    'id': 4,
-    'image': "/images/react4.jpg",
-    'name': 'test4',
-    'age': 34,
-    'gender': '여자'
-  },
-  {
-    'id': 5,
-    'image': "/images/react5.jpg",
-    'name': 'test5',
-    'age': 35,
-    'gender': '남자'
-  }
-]
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import { Customers } from './data';
 
 class App extends Component {
   render() {
     return (
-      customers.map(customer => <Customer customer={customer} />)
+      <div>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>번호</TableCell>
+              <TableCell>이미지</TableCell>
+              <TableCell>이름</TableCell>
+              <TableCell>나이</TableCell>
+              <TableCell>성별</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Customers.map(customer => <Customer key={customer.id} customer={customer} />)}
+          </TableBody>
+        </Table>
+      </div>
     );
   }
 }
