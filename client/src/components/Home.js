@@ -7,13 +7,24 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Customer from './Customer';
+import { RiseLoader } from 'react-spinners';
+
+const style = {
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)"
+};
 
 const Home = () => {
     const { data, error, loading } = useQuery(Q_CUSTOMER);
 
     return (
         <div>
-            {loading && "Loading..."}
+            <div style={style}>
+                <RiseLoader size={20} color={'#50e3c2'} loading={loading} />
+            </div>
+
             {!loading && data && data.customers &&
                 <Table>
                     <TableHead>
@@ -30,6 +41,7 @@ const Home = () => {
                     </TableBody>
                 </Table>
             }
+
             {error && "Error!!!"}
         </div>
     );
