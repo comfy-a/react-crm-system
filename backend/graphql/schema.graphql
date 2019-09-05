@@ -1,11 +1,16 @@
 type Customer {
   id: Int!
   name: String!
-  image: String
   age: Int
   gender: String
 }
 
+type CustomerType {
+  statusCode: Int!
+  data: [Customer]
+  error: String
+}
+
 type Query {
-  customers: [Customer]!
+  customers: CustomerType
 }

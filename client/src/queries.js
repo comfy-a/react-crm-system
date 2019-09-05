@@ -1,13 +1,15 @@
 import gql from "graphql-tag";
 
-export const Q_CUSTOMER = gql`
+export const Q_CUSTOMER = gql` 
   {
     customers {
-      id
-      name
-      image
-      age
-      gender
+      statusCode
+      data {
+        id
+        name
+        age
+        gender
+      }
     }
   }
 `;

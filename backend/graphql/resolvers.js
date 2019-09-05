@@ -1,4 +1,4 @@
-import { getCustomers } from "./db";
+import { getCustomers } from "./dynamodb";
 
 const resolvers = {
     Query: {
