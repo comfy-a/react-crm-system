@@ -3,7 +3,7 @@ import { HashRouter as Router, Route } from "react-router-dom";
 import { ApolloProvider } from "react-apollo";
 import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
 import client from "./apolloClient";
-import Home from "./components/Home";
+import Home from "./components/Home/Home";
 import { GlobalStyle } from "./globalStyles";
 
 class App extends Component {
