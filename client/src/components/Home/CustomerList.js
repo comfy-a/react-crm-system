@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from "react-apollo-hooks";
-import { Q_CUSTOMER } from "../../queries";
+import { ALL_CUSTOMER_GET } from "../../queries";
 import { RiseLoader } from 'react-spinners';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -17,7 +17,7 @@ const CustomerTable = () => {
         transform: "translate(-50%, -50%)"
     };
 
-    const { data, error, loading } = useQuery(Q_CUSTOMER);
+    const { data, error, loading } = useQuery(ALL_CUSTOMER_GET);
 
     return (
         <div>
@@ -28,7 +28,6 @@ const CustomerTable = () => {
             < Table >
                 <TableHead>
                     <TableRow>
-                        <TableCell>번호</TableCell>
                         <TableCell>이름</TableCell>
                         <TableCell>나이</TableCell>
                         <TableCell>성별</TableCell>
@@ -38,7 +37,6 @@ const CustomerTable = () => {
                     {!loading && data && data.customers && data.customers.data &&
                         data.customers.data.map(customer => {
                             return <TableRow key={customer.id}>
-                                <TableCell>{customer.id}</TableCell>
                                 <TableCell>{customer.name}</TableCell>
                                 <TableCell>{customer.age}</TableCell>
                                 <TableCell>{customer.gender}</TableCell>

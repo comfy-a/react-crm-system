@@ -1,16 +1,26 @@
 type Customer {
-  id: Int!
-  name: String!
+  id: String
+  name: String
   age: Int
   gender: String
 }
 
-type CustomerType {
-  statusCode: Int!
+type GetType {
+  statusCode: Int
   data: [Customer]
   error: String
 }
 
+type PostType {
+  statusCode: Int!
+  data: Customer
+  error: String
+}
+
 type Query {
-  customers: CustomerType
+  customers: GetType
+}
+
+type Mutation {
+  postCustomer(name: String, age: Int, gender: String): PostType
 }

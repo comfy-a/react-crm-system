@@ -2,6 +2,7 @@ import React from "react";
 import Button from '@material-ui/core/Button';
 import CustomerList from './CustomerList';
 import CustomerAdd from "./CustomerAdd";
+import { Grid } from "@material-ui/core";
 
 class Home extends React.Component {
 
@@ -30,13 +31,24 @@ class Home extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <Grid container>
 
-                <Button variant="contained" color="primary" onClick={this.addCustomer}>고객 추가</Button>
+                    {!this.state.opened &&
+                        <Button variant="contained" color="primary" onClick={this.addCustomer}>고객 추가</Button>
+                    }
 
-                <CustomerAdd opened={this.state.opened} stateRefresh={this.stateRefresh} />
+                    <Grid item xs={this.state.opened ? 6 : 12}>
+                        <CustomerList />
+                    </Grid>
 
-                <CustomerList />
+                    {this.state.opened &&
+                        <Grid item xs={6}>
+                            {/* <CustomerAdd opened={this.state.opened} stateRefresh={this.stateRefresh} /> */}
+                            <CustomerAdd />
+                        </Grid>
+                    }
 
+                </Grid>
             </React.Fragment>
         );
     }
