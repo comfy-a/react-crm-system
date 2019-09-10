@@ -27,13 +27,18 @@ const CustomerList = forwardRef((props, ref) => {
 
     const { data, error, loading, refetch } = useQuery(ALL_CUSTOMER_GET);
 
+    const handleClick = (event, customer) => {
+        console.log(event);
+        console.log(customer);
+    }
+
     return (
         <div>
             <div style={spinnerStyle}>
                 <RiseLoader size={20} color={'#50e3c2'} loading={loading} />
             </div>
 
-            < Table >
+            <Table>
                 <TableHead>
                     <TableRow>
                         <TableCell>이름</TableCell>
@@ -44,7 +49,7 @@ const CustomerList = forwardRef((props, ref) => {
                 <TableBody>
                     {!loading && data && data.customers && data.customers.data &&
                         data.customers.data.map(customer => {
-                            return <TableRow key={customer.id}>
+                            return <TableRow key={customer.id} onClick={event => handleClick(event, customer)}>
                                 <TableCell>{customer.name}</TableCell>
                                 <TableCell>{customer.age}</TableCell>
                                 <TableCell>{customer.gender}</TableCell>
