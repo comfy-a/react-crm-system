@@ -5,7 +5,7 @@ AWS.config.update({
     endpoint: "http://localhost:8000"
 });
 
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 export const getCustomers = async () => {
 
@@ -14,7 +14,7 @@ export const getCustomers = async () => {
     };
 
     return await new Promise((resolve, reject) => {
-        dynamoDb.scan(params, (error, data) => {
+        dynamodb.scan(params, (error, data) => {
             if (error) {
                 console.log(`${error.stack}`);
                 resolve({
@@ -45,7 +45,7 @@ export const postCustomer = async (name, age, gender) => {
     };
 
     return await new Promise((resolve, reject) => {
-        dynamoDb.put(params, (error, data) => {
+        dynamodb.put(params, (error, data) => {
             if (error) {
                 console.log(`${error.stack}`);
                 resolve({

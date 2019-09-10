@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
 import { useQuery } from "react-apollo-hooks";
 import { ALL_CUSTOMER_GET } from "../../queries";
 import { RiseLoader } from 'react-spinners';
@@ -8,7 +8,15 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
-const CustomerTable = () => {
+const CustomerList = forwardRef((props, ref) => {
+
+    useImperativeHandle(ref, () => ({
+
+        getCustomerList() {
+            refetch();
+        }
+
+    }));
 
     const spinnerStyle = {
         position: "fixed",
@@ -17,7 +25,7 @@ const CustomerTable = () => {
         transform: "translate(-50%, -50%)"
     };
 
-    const { data, error, loading } = useQuery(ALL_CUSTOMER_GET);
+    const { data, error, loading, refetch } = useQuery(ALL_CUSTOMER_GET);
 
     return (
         <div>
@@ -48,6 +56,6 @@ const CustomerTable = () => {
             </Table>
         </div>
     );
-};
+});
 
-export default CustomerTable
+export default CustomerList;

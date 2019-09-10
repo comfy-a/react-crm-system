@@ -13,13 +13,15 @@ class Home extends React.Component {
             opened: false
         }
 
+        this.customerList = React.createRef();
         this.stateRefresh = this.stateRefresh.bind(this);
     }
 
     stateRefresh() {
         this.setState({
             opened: false
-        })
+        });
+        this.customerList.current.getCustomerList();
     }
 
     addCustomer = () => {
@@ -38,13 +40,12 @@ class Home extends React.Component {
                     }
 
                     <Grid item xs={this.state.opened ? 6 : 12}>
-                        <CustomerList />
+                        <CustomerList ref={this.customerList} />
                     </Grid>
 
                     {this.state.opened &&
                         <Grid item xs={6}>
-                            {/* <CustomerAdd opened={this.state.opened} stateRefresh={this.stateRefresh} /> */}
-                            <CustomerAdd />
+                            <CustomerAdd stateRefresh={this.stateRefresh} />
                         </Grid>
                     }
 

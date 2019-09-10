@@ -12,7 +12,7 @@ type GetType {
 }
 
 type PostType {
-  statusCode: Int!
+  statusCode: Int
   data: Customer
   error: String
 }

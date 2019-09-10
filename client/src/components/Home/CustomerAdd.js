@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import { useMutation } from "react-apollo-hooks";
 import { CUSTOMER_POST } from "../../queries";
 
-const CustomerAdd = () => {
+const CustomerAdd = (props) => {
 
     const { value: name, bind: bindName, reset: resetName } = useInput('');
     const { value: age, bind: bindAge, reset: resetAge } = useInput('');
@@ -21,8 +21,16 @@ const CustomerAdd = () => {
 
         if (!validation()) return;
 
-        postCustomer();
-        resetInputValue();
+        postCustomer().then(
+            result => {
+                console.log("success");
+                resetFormValue();
+                props.stateRefresh();
+            },
+            error => {
+                console.error("error");
+            }
+        );
     }
 
     const validation = () => {
@@ -34,10 +42,14 @@ const CustomerAdd = () => {
         return true;
     }
 
-    const resetInputValue = () => {
+    const resetFormValue = () => {
         resetName();
         resetAge();
         resetGender();
+    }
+
+    const cancel = () => {
+        props.stateRefresh();
     }
 
     return (
@@ -50,8 +62,7 @@ const CustomerAdd = () => {
                 <br />
                 성별: <input type="text" name="gender" {...bindGender} />
                 <br /><br />
-                {/* <Button variant="contained" onClick={this.cancel.bind(this)} >취소</Button> */}
-                {/* <Button variant="contained" color="primary" onClick={postCustomer}>저장</Button> */}
+                <Button variant="contained" onClick={cancel} >취소</Button>
                 <Button type="submit" variant="contained" color="primary">저장</Button>
             </form>
         </React.Fragment>
