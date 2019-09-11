@@ -1,18 +1,46 @@
-import React, { useState } from "react";
-import Button from '@material-ui/core/Button';
+import React, { useState, useEffect } from "react";
 import { useMutation } from "react-apollo-hooks";
-import { CUSTOMER_POST } from "../../queries";
+import { CUSTOMER_POST, CUSTOMER_DELETE } from "../../queries";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+    },
+    button: {
+        margin: theme.spacing(1),
+        width: "100px"
+    }
+}));
 
 const CustomerAdd = (props) => {
 
-    const { value: name, bind: bindName, reset: resetName } = useInput('');
-    const { value: age, bind: bindAge, reset: resetAge } = useInput('');
-    const { value: gender, bind: bindGender, reset: resetGender } = useInput('');
+    const classes = useStyles();
+    const { value: name, setValue: setName, bind: bindName, reset: resetName } = useInput('');
+    const { value: age, setValue: setAge, bind: bindAge, reset: resetAge } = useInput('');
+    const { value: gender, setValue: setGender, bind: bindGender, reset: resetGender } = useInput('');
+
     const [postCustomer] = useMutation(CUSTOMER_POST, {
         variables: {
             name,
-            age: Number(age),
+            age: age,
             gender
+        }
+    });
+    const [deleteCustomer] = useMutation(CUSTOMER_DELETE, {
+        variables: {
+            id: props.customer !== null ? props.customer.id : null
+        }
+    });
+
+    useEffect(() => {
+        if (props.customer !== null) {
+            setName(props.customer.name);
+            setAge(props.customer.age);
+            setGender(props.customer.gender);
         }
     });
 
@@ -21,14 +49,29 @@ const CustomerAdd = (props) => {
 
         if (!validation()) return;
 
-        postCustomer().then(
+        if (props.customer === null) {
+            postCustomer().then(
+                result => {
+                    resetFormValue();
+                    props.stateRefresh();
+                },
+                error => {
+                    console.error(error);
+                }
+            );
+        } else {
+            
+        }
+    }
+
+    const handleDeleteEvent = () => {
+        deleteCustomer().then(
             result => {
-                console.log("success");
-                resetFormValue();
+                console.log(result);
                 props.stateRefresh();
             },
             error => {
-                console.error("error");
+                console.error(error);
             }
         );
     }
@@ -55,27 +98,50 @@ const CustomerAdd = (props) => {
     return (
         <React.Fragment>
             <form onSubmit={handleSubmit} autoComplete="off" noValidate>
+                <TextField
+                    label="Name"
+                    className={classes.textField}
+                    margin="normal"
+                    variant="outlined"
+                    {...bindName}
+                />
                 <br />
-                이름: <input type="text" name="name" {...bindName} />
+                <TextField
+                    label="Age"
+                    className={classes.textField}
+                    margin="normal"
+                    variant="outlined"
+                    {...bindAge}
+                />
                 <br />
-                나이: <input type="number" name="age" min="1" {...bindAge} />
-                <br />
-                성별: <input type="text" name="gender" {...bindGender} />
+                <TextField
+                    label="Gender"
+                    className={classes.textField}
+                    margin="normal"
+                    variant="outlined"
+                    {...bindGender}
+                />
                 <br /><br />
-                <Button variant="contained" onClick={cancel} >취소</Button>
-                <Button type="submit" variant="contained" color="primary">저장</Button>
+                <Button variant="contained" className={classes.button} onClick={cancel}>취소</Button>
+                <Button type="submit" variant="contained" color="primary" className={classes.button}>
+                    {props.customer !== null && "수정"}
+                    {props.customer === null && "저장"}
+                </Button>
+                {props.customer !== null &&
+                    <Button variant="contained" color="secondary" className={classes.button} onClick={handleDeleteEvent}>삭제</Button>
+                }
             </form>
         </React.Fragment>
     );
 };
 
-const useInput = initialValue => {
+const useInput = (initialValue) => {
     const [value, setValue] = useState(initialValue);
 
     return {
         value,
         setValue,
-        reset: () => setValue(""),
+        reset: () => setValue(''),
         bind: {
             value,
             onChange: event => {

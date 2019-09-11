@@ -15,7 +15,7 @@ export const ALL_CUSTOMER_GET = gql`
 `;
 
 export const CUSTOMER_POST = gql` 
-  mutation PostCustomer($name: String, $age: Int, $gender: String) {
+  mutation PostCustomer($name: String, $age: String, $gender: String) {
     postCustomer(name: $name, age: $age, gender: $gender) {
       statusCode
       data {
@@ -24,6 +24,15 @@ export const CUSTOMER_POST = gql`
         age
         gender
       }
+    }
+  }
+`;
+
+export const CUSTOMER_DELETE = gql` 
+  mutation DeleteCustomer($id: String) {
+    deleteCustomer(id: $id) {
+      statusCode
+      data
     }
   }
 `;

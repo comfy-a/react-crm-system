@@ -64,6 +64,34 @@ export const postCustomer = async (name, age, gender) => {
     });
 };
 
+export const deleteCustomer = async (id) => {
+    var params = {
+        TableName: "Customer",
+        Key: {
+            id
+        }
+    };
+
+    return await new Promise((resolve, reject) => {
+        dynamodb.delete(params, (error, data) => {
+            if (error) {
+                console.log(`${error.stack}`);
+                resolve({
+                    statusCode: 400,
+                    error: `${error.stack}`
+                });
+
+            } else {
+                console.log(`${JSON.stringify(data)}`);
+                resolve({
+                    statusCode: 200,
+                    data: "success"
+                });
+            }
+        });
+    });
+};
+
 
 const create_uuid = () => {
     const s4 = () => {

@@ -1,7 +1,7 @@
 type Customer {
   id: String
   name: String
-  age: Int
+  age: String
   gender: String
 }
 
@@ -17,10 +17,17 @@ type PostType {
   error: String
 }
 
+type DeleteType {
+  statusCode: Int
+  data: String
+  error: String
+}
+
 type Query {
   customers: GetType
 }
 
 type Mutation {
-  postCustomer(name: String, age: Int, gender: String): PostType
+  postCustomer(name: String, age: String, gender: String): PostType,
+  deleteCustomer(id: String): DeleteType
 }

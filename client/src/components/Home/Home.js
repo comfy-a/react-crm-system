@@ -10,23 +10,34 @@ class Home extends React.Component {
         super(props);
 
         this.state = {
-            opened: false
+            opened: false,
+            customer: null
         }
 
         this.customerList = React.createRef();
         this.stateRefresh = this.stateRefresh.bind(this);
+        this.handleSelectCustomer = this.handleSelectCustomer.bind(this);
     }
 
     stateRefresh() {
         this.setState({
-            opened: false
+            opened: false,
+            customer: null
         });
         this.customerList.current.getCustomerList();
     }
 
+    handleSelectCustomer(customer) {
+        this.setState({
+            opened: true,
+            customer: customer
+        });        
+    }
+
     addCustomer = () => {
         this.setState({
-            opened: true
+            opened: true,
+            customer: null
         });
     }
 
@@ -40,12 +51,12 @@ class Home extends React.Component {
                     }
 
                     <Grid item xs={this.state.opened ? 6 : 12}>
-                        <CustomerList ref={this.customerList} />
+                        <CustomerList ref={this.customerList} handleSelectCustomer={this.handleSelectCustomer} />
                     </Grid>
 
                     {this.state.opened &&
                         <Grid item xs={6}>
-                            <CustomerAdd stateRefresh={this.stateRefresh} />
+                            <CustomerAdd customer={this.state.customer} stateRefresh={this.stateRefresh} />
                         </Grid>
                     }
 

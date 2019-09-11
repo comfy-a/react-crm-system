@@ -28,8 +28,7 @@ const CustomerList = forwardRef((props, ref) => {
     const { data, error, loading, refetch } = useQuery(ALL_CUSTOMER_GET);
 
     const handleClick = (event, customer) => {
-        console.log(event);
-        console.log(customer);
+        props.handleSelectCustomer(customer);
     }
 
     return (
