@@ -1,4 +1,4 @@
-import { getCustomers, postCustomer, deleteCustomer } from "./dynamodb";
+import { getCustomers, postCustomer, deleteCustomer, putCustomer } from "./dynamodb";
 
 const resolvers = {
     Query: {
@@ -6,6 +6,7 @@ const resolvers = {
     },
     Mutation: {
         postCustomer: (_, { name, age, gender }) => postCustomer(name, age, gender),
+        putCustomer: (_, { id, name, age, gender }) => putCustomer(id, name, age, gender),
         deleteCustomer: (_, { id }) => deleteCustomer(id)
     }
 };

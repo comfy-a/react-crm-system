@@ -17,6 +17,12 @@ type PostType {
   error: String
 }
 
+type PutType {
+  statusCode: Int
+  data: String
+  error: String
+}
+
 type DeleteType {
   statusCode: Int
   data: String
@@ -29,5 +35,6 @@ type Query {
 
 type Mutation {
   postCustomer(name: String, age: String, gender: String): PostType,
+  putCustomer(id: String, name: String, age: String, gender: String): PutType,
   deleteCustomer(id: String): DeleteType
 }

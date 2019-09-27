@@ -16,7 +16,7 @@ class Home extends React.Component {
 
         this.customerList = React.createRef();
         this.stateRefresh = this.stateRefresh.bind(this);
-        this.handleSelectCustomer = this.handleSelectCustomer.bind(this);
+        this.rowSelect = this.rowSelect.bind(this);
     }
 
     stateRefresh() {
@@ -24,14 +24,17 @@ class Home extends React.Component {
             opened: false,
             customer: null
         });
-        this.customerList.current.getCustomerList();
+
+        setTimeout(() => {
+            this.customerList.current.getCustomerList();
+        }, 250);
     }
 
-    handleSelectCustomer(customer) {
+    rowSelect(customer) {
         this.setState({
             opened: true,
             customer: customer
-        });        
+        });
     }
 
     addCustomer = () => {
@@ -45,21 +48,19 @@ class Home extends React.Component {
         return (
             <React.Fragment>
                 <Grid container>
-
                     {!this.state.opened &&
                         <Button variant="contained" color="primary" onClick={this.addCustomer}>고객 추가</Button>
                     }
-
-                    <Grid item xs={this.state.opened ? 6 : 12}>
-                        <CustomerList ref={this.customerList} handleSelectCustomer={this.handleSelectCustomer} />
-                    </Grid>
-
+                    {!this.state.opened &&
+                        <Grid xs={12}>
+                            <CustomerList ref={this.customerList} rowSelect={this.rowSelect} />
+                        </Grid>
+                    }
                     {this.state.opened &&
-                        <Grid item xs={6}>
+                        <Grid xs={12}>
                             <CustomerAdd customer={this.state.customer} stateRefresh={this.stateRefresh} />
                         </Grid>
                     }
-
                 </Grid>
             </React.Fragment>
         );

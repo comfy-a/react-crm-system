@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useMutation } from "react-apollo-hooks";
-import { CUSTOMER_POST, CUSTOMER_DELETE } from "../../queries";
+import { CUSTOMER_POST, CUSTOMER_DELETE, CUSTOMER_PUT } from "../../queries";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,28 +19,28 @@ const useStyles = makeStyles(theme => ({
 const CustomerAdd = (props) => {
 
     const classes = useStyles();
-    const { value: name, setValue: setName, bind: bindName, reset: resetName } = useInput('');
-    const { value: age, setValue: setAge, bind: bindAge, reset: resetAge } = useInput('');
-    const { value: gender, setValue: setGender, bind: bindGender, reset: resetGender } = useInput('');
+    const { value: name, bind: bindName } = useInput(props.customer !== null ? props.customer.name : '');
+    const { value: age, bind: bindAge } = useInput(props.customer !== null ? props.customer.age : '');
+    const { value: gender, bind: bindGender } = useInput(props.customer !== null ? props.customer.gender : '');
 
     const [postCustomer] = useMutation(CUSTOMER_POST, {
         variables: {
             name,
-            age: age,
+            age,
+            gender
+        }
+    });
+    const [putCustomer] = useMutation(CUSTOMER_PUT, {
+        variables: {
+            id: props.customer !== null ? props.customer.id : null,
+            name,
+            age,
             gender
         }
     });
     const [deleteCustomer] = useMutation(CUSTOMER_DELETE, {
         variables: {
             id: props.customer !== null ? props.customer.id : null
-        }
-    });
-
-    useEffect(() => {
-        if (props.customer !== null) {
-            setName(props.customer.name);
-            setAge(props.customer.age);
-            setGender(props.customer.gender);
         }
     });
 
@@ -52,7 +52,7 @@ const CustomerAdd = (props) => {
         if (props.customer === null) {
             postCustomer().then(
                 result => {
-                    resetFormValue();
+                    console.log(result);
                     props.stateRefresh();
                 },
                 error => {
@@ -60,7 +60,16 @@ const CustomerAdd = (props) => {
                 }
             );
         } else {
-            
+            putCustomer().then(
+                result => {
+                    console.log(result);
+                    props.stateRefresh();
+                },
+                error => {
+                    console.error(error);
+                }
+            );
+
         }
     }
 
@@ -83,12 +92,6 @@ const CustomerAdd = (props) => {
         }
 
         return true;
-    }
-
-    const resetFormValue = () => {
-        resetName();
-        resetAge();
-        resetGender();
     }
 
     const cancel = () => {
@@ -141,7 +144,6 @@ const useInput = (initialValue) => {
     return {
         value,
         setValue,
-        reset: () => setValue(''),
         bind: {
             value,
             onChange: event => {

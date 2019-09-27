@@ -28,6 +28,15 @@ export const CUSTOMER_POST = gql`
   }
 `;
 
+export const CUSTOMER_PUT = gql` 
+  mutation PutCustomer($id: String, $name: String, $age: String, $gender: String) {
+    putCustomer(id: $id, name: $name, age: $age, gender: $gender) {
+      statusCode
+      data
+    }
+  }
+`;
+
 export const CUSTOMER_DELETE = gql` 
   mutation DeleteCustomer($id: String) {
     deleteCustomer(id: $id) {

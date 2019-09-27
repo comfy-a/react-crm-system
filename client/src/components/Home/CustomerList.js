@@ -11,11 +11,9 @@ import TableCell from '@material-ui/core/TableCell';
 const CustomerList = forwardRef((props, ref) => {
 
     useImperativeHandle(ref, () => ({
-
         getCustomerList() {
             refetch();
         }
-
     }));
 
     const spinnerStyle = {
@@ -28,7 +26,7 @@ const CustomerList = forwardRef((props, ref) => {
     const { data, error, loading, refetch } = useQuery(ALL_CUSTOMER_GET);
 
     const handleClick = (event, customer) => {
-        props.handleSelectCustomer(customer);
+        props.rowSelect(customer);
     }
 
     return (
